@@ -12,3 +12,4 @@ C:\Users\Nylle\OneDrive\Desktop\Projects\text-based-game\TextBasedGame\obj\Debug
 C:\Users\Nylle\OneDrive\Desktop\Projects\text-based-game\TextBasedGame\obj\Debug\net8.0\TextBasedGame.pdb
 C:\Users\Nylle\OneDrive\Desktop\Projects\text-based-game\TextBasedGame\obj\Debug\net8.0\TextBasedGame.genruntimeconfig.cache
 C:\Users\Nylle\OneDrive\Desktop\Projects\text-based-game\TextBasedGame\obj\Debug\net8.0\ref\TextBasedGame.dll
+C:\Users\Nylle\OneDrive\Desktop\Projects\text-based-game\TextBasedGame\obj\Debug\net8.0\TextBasedGame.sourcelink.json
