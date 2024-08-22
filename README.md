@@ -27,11 +27,6 @@ Once you have the repository cloned, you can build and run the game using the fo
 dotnet build
 dotnet run
 
-
-Here's a sample README.md file for your GitHub repository that explains how to play the game, mentions that it's a work in progress, and highlights the C# skills you're practicing:
-
-markdown
-Copy code
 # Text-Based Adventure Game
 
 Welcome to my **Text-Based Adventure Game**! This is a simple console-based game where you, the player, embark on an adventure filled with exploration, combat, and decision-making. The game is currently a work in progress and serves as a project to practice and enhance my C# programming skills.
