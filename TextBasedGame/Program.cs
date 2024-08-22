@@ -7,6 +7,7 @@ namespace TextBasedGame
     {
         static void Main(string[] args)
         {
+            // Create a new instance of the Game class and start the game
             Game game = new Game();
             game.Start();
         }
@@ -14,10 +15,12 @@ namespace TextBasedGame
 
     class Game
     {
-        private string playerName;
-        private bool isPlaying;
-        private Dictionary<string, string> inventory = new Dictionary<string, string>();
+        private string playerName; // Store the player's name
+        private bool isPlaying; // Control the main game loop
+        private Dictionary<string, string> inventory = new Dictionary<string, string>(); // Store player's inventory items
+        private int playerHealth = 100; // Initialize player's health
 
+        // The main entry point to start the game
         public void Start()
         {
             Console.WriteLine("Welcome to the Text-Based Adventure Game!");
@@ -27,9 +30,11 @@ namespace TextBasedGame
             Console.WriteLine($"Greetings, {playerName}! Your adventure begins now...");
             isPlaying = true;
 
+            // Start the main menu loop
             ShowMainMenu();
         }
 
+        // Main menu where the player can choose actions
         private void ShowMainMenu()
         {
             while (isPlaying)
@@ -37,11 +42,13 @@ namespace TextBasedGame
                 Console.WriteLine("\nMain Menu:");
                 Console.WriteLine("1. Explore");
                 Console.WriteLine("2. Check Inventory");
-                Console.WriteLine("3. Exit");
+                Console.WriteLine("3. Check Health");
+                Console.WriteLine("4. Exit");
 
                 Console.Write("Choose an option: ");
                 string choice = Console.ReadLine();
 
+                // Handle menu choices
                 switch (choice)
                 {
                     case "1":
@@ -51,6 +58,9 @@ namespace TextBasedGame
                         CheckInventory();
                         break;
                     case "3":
+                        CheckHealth();
+                        break;
+                    case "4":
                         ExitGame();
                         break;
                     default:
@@ -60,6 +70,7 @@ namespace TextBasedGame
             }
         }
 
+        // The exploration logic where the player can choose where to go
         private void Explore()
         {
             Console.WriteLine("\nYou are standing at a crossroads. You can go:");
@@ -71,6 +82,7 @@ namespace TextBasedGame
             Console.Write("Which direction do you want to go? ");
             string choice = Console.ReadLine();
 
+            // Handle exploration choices
             switch (choice)
             {
                 case "1":
@@ -91,6 +103,7 @@ namespace TextBasedGame
             }
         }
 
+        // Visit the Dark Forest and potentially find a mysterious object
         private void VisitDarkForest()
         {
             Console.WriteLine("\nYou venture into the Dark Forest. The trees are tall and ominous, blocking out most of the sunlight.");
@@ -108,8 +121,13 @@ namespace TextBasedGame
             {
                 Console.WriteLine("You decide to leave the strange object and walk away.");
             }
+
+            // Adding a potential combat scenario
+            Console.WriteLine("Suddenly, a wild wolf appears! It looks aggressive.");
+            Combat("Wolf", 20); // Engage in combat with a wolf with 20 health
         }
 
+        // Visit the Quiet Village, where you can interact with the villagers
         private void VisitQuietVillage()
         {
             Console.WriteLine("\nYou arrive at the Quiet Village. The villagers are friendly, and the atmosphere is peaceful.");
@@ -129,6 +147,7 @@ namespace TextBasedGame
             }
         }
 
+        // Visit the Riverbank and potentially find a valuable item
         private void VisitRiverbank()
         {
             Console.WriteLine("\nYou walk along the Riverbank. The sound of the flowing water is soothing.");
@@ -148,6 +167,7 @@ namespace TextBasedGame
             }
         }
 
+        // Visit the Abandoned Castle, which could hold treasures or dangers
         private void VisitAbandonedCastle()
         {
             Console.WriteLine("\nYou approach the Abandoned Castle. The structure is old and crumbling, with an eerie silence surrounding it.");
@@ -159,7 +179,24 @@ namespace TextBasedGame
             if (choice == "yes")
             {
                 Console.WriteLine("You step inside the castle, the darkness enveloping you.");
-                // Add more logic here for exploring the castle
+                Console.WriteLine("As you explore, you find a dusty old chest.");
+
+                Console.Write("Do you want to open the chest? (yes/no): ");
+                string chestChoice = Console.ReadLine().ToLower();
+
+                if (chestChoice == "yes")
+                {
+                    AddToInventory("Ancient Sword", "A rusty but powerful sword.");
+                    Console.WriteLine("You open the chest and find an Ancient Sword. It might come in handy later.");
+                }
+                else
+                {
+                    Console.WriteLine("You decide to leave the chest unopened and continue exploring.");
+                }
+
+                // Potential for another combat scenario
+                Console.WriteLine("As you turn to leave, a skeleton warrior emerges from the shadows!");
+                Combat("Skeleton Warrior", 30); // Engage in combat with a skeleton warrior with 30 health
             }
             else
             {
@@ -167,6 +204,60 @@ namespace TextBasedGame
             }
         }
 
+        // Simple combat system where the player fights a monster
+        private void Combat(string enemyName, int enemyHealth)
+        {
+            Console.WriteLine($"You are now in combat with a {enemyName}!");
+
+            while (enemyHealth > 0 && playerHealth > 0)
+            {
+                Console.WriteLine($"\n{enemyName} Health: {enemyHealth}");
+                Console.WriteLine($"Your Health: {playerHealth}");
+                Console.WriteLine("1. Attack");
+                Console.WriteLine("2. Run");
+
+                Console.Write("What do you want to do? ");
+                string choice = Console.ReadLine();
+
+                if (choice == "1")
+                {
+                    // Basic attack: reduce the enemy's health
+                    int damage = new Random().Next(10, 20); // Random damage between 10 and 20
+                    enemyHealth -= damage;
+                    Console.WriteLine($"You hit the {enemyName} for {damage} damage!");
+
+                    if (enemyHealth > 0)
+                    {
+                        // Enemy attacks back
+                        int enemyDamage = new Random().Next(5, 15); // Random damage between 5 and 15
+                        playerHealth -= enemyDamage;
+                        Console.WriteLine($"The {enemyName} hits you for {enemyDamage} damage!");
+                    }
+                    else
+                    {
+                        Console.WriteLine($"You have defeated the {enemyName}!");
+                    }
+                }
+                else if (choice == "2")
+                {
+                    // The player chooses to run away
+                    Console.WriteLine("You run away from the fight!");
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("Invalid choice, please try again.");
+                }
+            }
+
+            if (playerHealth <= 0)
+            {
+                Console.WriteLine("You have been defeated. Game Over.");
+                isPlaying = false; // End the game if the player dies
+            }
+        }
+
+        // Check the player's inventory
         private void CheckInventory()
         {
             Console.WriteLine("\nInventory:");
@@ -183,18 +274,31 @@ namespace TextBasedGame
             }
         }
 
+        // Check the player's health
+        private void CheckHealth()
+        {
+            Console.WriteLine($"\nYour current health is: {playerHealth}");
+        }
+
+        // Add an item to the player's inventory
         private void AddToInventory(string itemName, string itemDescription)
         {
             if (!inventory.ContainsKey(itemName))
             {
                 inventory.Add(itemName, itemDescription);
+                Console.WriteLine($"{itemName} has been added to your inventory.");
+            }
+            else
+            {
+                Console.WriteLine("You already have this item in your inventory.");
             }
         }
 
+        // Exit the game
         private void ExitGame()
         {
             Console.WriteLine("\nThank you for playing! Farewell, adventurer.");
-            isPlaying = false;
+            isPlaying = false; // Stop the game loop
         }
     }
 }
